@@ -80,6 +80,8 @@ const keys = {
         Digit0: '0',
         Minus: '-',
         Equal: '=',
+        Backspace: 'backspace',
+        Tab: 'Tab',
         KeyQ: 'й',
         KeyW: 'ц',
         KeyE: 'у',
@@ -93,6 +95,7 @@ const keys = {
         BracketLeft: 'х',
         BracketRight: 'ъ',
         Backslash: '\\',
+        CapsLock: 'CapsLk',
         KeyA: 'ф',
         KeyS: 'ы',
         KeyD: 'в',
@@ -104,6 +107,8 @@ const keys = {
         KeyL: 'д',
         Semicolon: 'ж',
         Quote: 'э',
+        Enter: 'Enter',
+        ShiftLeft: 'Shift',
         KeyZ: 'я',
         KeyX: 'ч',
         KeyC: 'с',
@@ -114,6 +119,17 @@ const keys = {
         Comma: 'б',
         Period: 'ю',
         Slash: '.',
+        ArrowUp: 'arrowup',
+        ShiftRight: 'Shift ',
+        ControlLeft: 'Ctrl',
+        MetaLeft: 'win',
+        AltLeft: 'alt',
+        Space: 'space',
+        AltRight: 'alt',
+        ControlRight: 'Ctrl',
+        ArrowLeft: 'arrowleft',
+        ArrowDown: 'arrowdown',
+        ArrowRight: 'arrowright',
     },
 };
 
@@ -231,7 +247,16 @@ class Board {
         wrapperContent.append(textareaBlock, keyBlock, message)
         this.keys = document.createElement('div');
         this.keys.classList.add('board-keys');
-        keyboard.append(this.keyss(keys.en));
+        keyboard.append(this.keyss(keys.en))
+
+        // document.addEventListener('keydown', function (event) {
+        //     if (event.altKey && event.shiftKey) {
+        //         console.log(1)
+        //         keyboard.append(this.keyss(keys.ru))
+        //     } else {
+        //         ;
+        //     }
+        // });
     }
 
     keyss(obj) {
@@ -260,16 +285,16 @@ class Board {
                 boardKey.style.flexBasis = '9%';
             } else if (obj[bK] === 'arrowup') {
                 mainText.textContent = '';
-                boardKey.classList.add('arrow__up');
+                boardKey.classList.add('arrow-up');
             } else if (obj[bK] === 'arrowdown') {
                 mainText.textContent = '';
-                boardKey.classList.add('arrow__down');
+                boardKey.classList.add('arrow-down');
             } else if (obj[bK] === 'arrowleft') {
                 mainText.textContent = '';
-                boardKey.classList.add('arrow__left');
+                boardKey.classList.add('arrow-left');
             } else if (obj[bK] === 'arrowright') {
                 mainText.textContent = '';
-                boardKey.classList.add('arrow__right');
+                boardKey.classList.add('arrow-right');
             } else if (obj[bK] === 'Tab') {
                 boardKey.style.flexBasis = '8%';
             }
@@ -288,6 +313,7 @@ class Board {
         })
         return this.keys;
     }
+
 }
 const wrapper = new Board();
 wrapper.createElement();
