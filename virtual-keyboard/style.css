@@ -36,24 +36,23 @@ justify-content: center;
 }
 .key-block{
     display: flex;
-    width: 100%;
-   
+    max-width: 100%;
+   margin: 0 auto;
     justify-content: center; 
 }
 .keyboard{
     display: flex;
-    width: 80%;
+    max-width: 100%;
     background-color:aqua;
     border-radius: 10px;
     border: 2px solid black;
 }
 .board-keys{
-    max-width: 58.125rem;
+    max-width: 59rem;
     margin: 0 auto;
-    gap: 15px;
+    gap: 10px;
     display: flex;
     flex-wrap: wrap;
-    row-gap: 0.625rem;
     justify-content: space-between;
 }
 .board-key{
@@ -68,4 +67,25 @@ justify-content: center;
     font-size: 0.875em;
 
 }
+.board-key-aux {
+    position: absolute;
+    top: 0.1875rem;
+    left: 0.3125rem;
+    font-size: 0.6875em;
+}
+.arrow__up {
+    background: url(./svg/arrow-up.svg) center/50% no-repeat;
+  }
+  
+  .arrow__down {
+    background: url(./svg/arrow-down.svg) center/50% no-repeat;
+  }
+  
+  .arrow__left {
+    background: url(./svg/arrow-left.svg) center/50% no-repeat;
+  }
+  
+  .arrow__right {
+    background: url(./svg/arrow-right.svg) center/50% no-repeat;
+  }
  

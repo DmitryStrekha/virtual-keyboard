@@ -14,7 +14,7 @@ const keys = {
         Minus: '-',
         Equal: '=',
         Backspace: 'backspace',
-        Tab: 'tab',
+        Tab: 'Tab',
         KeyQ: 'q',
         KeyW: 'w',
         KeyE: 'e',
@@ -28,8 +28,8 @@ const keys = {
         BracketLeft: '[',
         BracketRight: ']',
         Backslash: '\\',
-        Delete: 'del',
-        CapsLock: 'caps lock',
+        Delete: 'Delete',
+        CapsLock: 'CapsLk',
         KeyA: 'a',
         KeyS: 's',
         KeyD: 'd',
@@ -41,8 +41,8 @@ const keys = {
         KeyL: 'l',
         Semicolon: ';',
         Quote: "'",
-        Enter: 'enter',
-        ShiftLeft: 'shift',
+        Enter: 'Enter',
+        ShiftLeft: 'Shift',
         KeyZ: 'z',
         KeyX: 'x',
         KeyC: 'c',
@@ -53,14 +53,15 @@ const keys = {
         Comma: ',',
         Period: '.',
         Slash: '/',
+
         ArrowUp: 'arrowup',
-        ShiftRight: 'shift ',
-        ControlLeft: 'ctrl',
+        ShiftRight: 'Shift ',
+        ControlLeft: 'Ctrl',
         MetaLeft: 'win',
         AltLeft: 'alt',
         Space: 'space',
         AltRight: 'alt',
-        ControlRight: 'ctrl',
+        ControlRight: 'Ctrl',
         ArrowLeft: 'arrowleft',
         ArrowDown: 'arrowdown',
         ArrowRight: 'arrowright',
@@ -116,7 +117,7 @@ const keys = {
     },
 };
 
-const auxKeys = {
+const specKeys = {
     en: {
         Backquote: '~',
         Digit1: '!',
@@ -241,13 +242,47 @@ class Board {
             const mainText = document.createElement('span');
             mainText.classList.add('keyboard__key-main');
             boardKey.append(mainText)
-            if (
-                obj[bK] === 'del' || obj[bK] === 'enter' || obj[bK] === 'backspace' || obj[bK] === 'tab'
-            ) {
-                mainText.textContent = obj[bK].slice(0, 1).toUpperCase() + obj[bK].slice(1);
-            } else {
-                mainText.textContent = obj[bK];
+            mainText.textContent = obj[bK];
+
+            if (obj[bK] === 'backspace') {
+                boardKey.style.flexBasis = '12%';
+            } else if (obj[bK] === 'Enter') {
+                boardKey.style.flexBasis = '12%';
+            } else if (obj[bK] === 'Shift') {
+                boardKey.style.flexBasis = '16%';
+            } else if (obj[bK] === '/') {
+                boardKey.style.flexBasis = '9%';
+            } else if (obj[bK] === 'space') {
+                boardKey.style.flexBasis = '40%';
+            } else if (obj[bK] === 'CapsLk') {
+                boardKey.style.flexBasis = '12%';
+            } else if (obj[bK] === 'Ctrl') {
+                boardKey.style.flexBasis = '9%';
+            } else if (obj[bK] === 'arrowup') {
+                mainText.textContent = '';
+                boardKey.classList.add('arrow__up');
+            } else if (obj[bK] === 'arrowdown') {
+                mainText.textContent = '';
+                boardKey.classList.add('arrow__down');
+            } else if (obj[bK] === 'arrowleft') {
+                mainText.textContent = '';
+                boardKey.classList.add('arrow__left');
+            } else if (obj[bK] === 'arrowright') {
+                mainText.textContent = '';
+                boardKey.classList.add('arrow__right');
+            } else if (obj[bK] === 'Tab') {
+                boardKey.style.flexBasis = '8%';
             }
+
+            Object.getOwnPropertyNames(specKeys.en).forEach((bk2) => {
+                if (bk2 === bK) {
+                    const auxText = document.createElement('span');
+                    auxText.classList.add('board-key-aux');
+                    boardKey.classList.add('board-key-special');
+                    auxText.textContent = specKeys.en[bk2];
+                    boardKey.append(auxText);
+                }
+            });
             this.keys.append(boardKey);
 
         })
