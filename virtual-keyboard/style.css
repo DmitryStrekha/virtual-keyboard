@@ -1,92 +1,164 @@
-.h1-text{
-    text-align: center;
-    font-size: 3rem;
-    color: black;
-}
-.wrapper-content{
-display: flex;
-width: 100%;
-flex-direction: column;
-justify-content: center;
-}
-.textar-block{
-    display: flex;
+*{
+    padding: 0;
+    margin: 0;
+    border: 0;
+  }
+  *,*:before,*:after{
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+  :focus,:active{outline: none;}
+  a:focus,a:active{outline: none;}
+  
+  nav,footer,header,aside{display: block;}
+  
+  html,body{
+    height: 100%;
     width: 100%;
+    font-size: 100%;
+    line-height: 1;
+    font-size: 14px;
+    -ms-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+  }
+  input,button,textarea{font-family:inherit;}
+  
+  input::-ms-clear{display: none;}
+  button{cursor: pointer;}
+  button::-moz-focus-inner {padding:0;border:0;}
+  a, a:visited{text-decoration: none;}
+  a:hover{text-decoration: none;}
+  ul li{list-style: none;}
+  img{vertical-align: top;}
+  
+  h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight: 400;}
+  
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+  
+  * {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+  }
+  
+  body {
+    display: flex;
+    align-items: center;
     justify-content: center;
-    margin-bottom: 5rem;
+    background: black;
+    color: #ffffff;
+  }
+  
+  .wrapper {
+      width: 91vw;
+      
+  }
+  
+  .textarea {
+  height: 10vw;
+  width: 100%;
+  padding: 1vw;
+  margin-bottom: 1vw;
+  font-size: 2vw;
+  background: white;
+  color: green;
+  border-radius: 5vw;
+  border: 5px double rgb(101, 0, 0);
+  resize: none;
 }
-.text-area {
-    width: 59rem;
-    height: 7rem;
-    border-radius: 10px;
-    border: 2px solid black;
-    resize: none;
-}
+  
+  .keyboard {
+      width: 100%;
+      margin-bottom: 2vw;
+      padding: 1vw;
+      border-radius: 5vw;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.97vw;
+      background: #ffffff;
+  }
+  
+  .key {
+      height: 5vw;
+      width: 5vw;
+      background: #ffffff;
+      color: red;
+      border-radius: 5vw;
+      font-size: 1.8vw;
+      line-height: 5vw;
+      text-align: center;
+      user-select: none;
+      cursor: pointer;
+      border: 1px solid rgb(0, 0, 0);
 
-.message{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-}
-.message span{
-    font-size: 2rem;
-    margin: 10px 0 10px 0;
-}
-.key-block{
-    display: flex;
-    max-width: 100%;
-   margin: 0 auto;
-    justify-content: center; 
-}
-.keyboard{
-    display: flex;
-    max-width: 100%;
-    background-color:aqua;
-    border-radius: 10px;
-    border: 2px solid black;
-}
-.board-keys{
-    max-width: 59rem;
-    margin: 0 auto;
-    gap: 10px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
-.board-key{
-    position: relative;
-    border-radius: 5px;
-    color: black;
-    background: transparent;
-    width: 3.125rem;
-    height: 3.125rem;
-    border: 1px solid #000;
-    font-size: 0.875em;
-}
-.board-key:hover{
-    box-shadow:  3px 5px black;
-}
-.board-key-aux {
-    position: absolute;
-    top: 0.1875rem;
-    left: 0.3125rem;
-    font-size: 0.6875em;
-}
-  .arrow-up {
-    background: url(./svg/arrow-up.svg) center/50% no-repeat ;
   }
   
-  .arrow-down {
-    background: url(./svg/arrow-down.svg) center/50% no-repeat;
+  .key:hover {
+    opacity: 0.6;
+    background-color: aqua;
+    color: green;
+    border-radius: 0.5vw;
+    box-shadow: none;
   }
   
-  .arrow-left {
-    background: url(./svg/arrow-left.svg) center/50% no-repeat;
+  .key:active {
+    opacity: 0.6;
+    color: green;
+    background-color: rgb(38, 174, 174);
+    border-radius: 5vw;
+    box-shadow: none;
+  }
+  .activated{
+    opacity: 0.6;
+    color: green;
+    border-radius: 5vw;
+    box-shadow: none;
+  }
+  .doubled {
+      position: relative;
   }
   
-  .arrow-right {
-    background: url(./svg/arrow-right.svg) center/50% no-repeat;
+  .doubled .upper {
+      position: absolute;
+      width: 2vw;
+      font-size: 1.2vw;
+      line-height: 2vw;
+      top: 0;
+      left: 0;
   }
- 
+.disabled {
+    display: none;
+}
+  .letter>span {
+    display: none;
+  }
+  
+  .show {
+    display: inline !important;
+  }
+  
+  .dark {
+      background: #970303;
+      color: #ffffff;
+  }
+  
+  .wide {
+      width: 11vw;
+  }
+  
+  .ultra-wide {
+      width: 41vw;
+  }
+  
+  .notation {
+      font-size: 1.25vw;
+  }
+  
+  .notation>span {
+      background: #770505;
+      padding: 0.25vw 0.5vw;
+      border-radius: 0.25vw;
+      font-family: monospace;
+      font-weight: bold;
+  }
