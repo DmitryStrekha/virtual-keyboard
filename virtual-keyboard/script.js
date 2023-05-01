@@ -92,41 +92,19 @@ function setLanguage() {
   }
 }
 
-let isCaps
-if (document.cookie.slice(7) === '') {
-  isCaps = 0
-} else {
-  isCaps = document.cookie.slice(7)
-}
+let isCaps = 0
 function toUpperRegister() {
   return (isCaps % 2)
 }
 
 document.addEventListener('keydown', e => {
-  for (const letter of LETTERS) {
-    if (e.code === letter.getAttribute('data-code')) {
-      e.preventDefault()
-      if (toUpperRegister()) {
-        TEXTAREA.value += letter.innerText.toUpperCase()
-      } else {
-        if (e.shiftKey) {
-          TEXTAREA.value += letter.innerText.toUpperCase()
-        } else {
-          TEXTAREA.value += letter.innerText.toLowerCase()
-        }
-      }
-    }
-  }
-  if (e.code === 'CapsLock') {
-    isCaps++
-    document.cookie = `isCaps=${isCaps}`
-  };
+  TEXTAREA.focus()
   if (e.code === 'CapsLock') isCaps++
   if (e.altKey || e.code === 'Tab') e.preventDefault()
   for (const key of KEYS) {
     if (key.getAttribute('data-code') === e.code) {
       key.style.opacity = '0.6'
-      key.style.boxShadow = '10px 5px 5px black'
+      key.style.boxShadow = 'none'
       key.style.color = 'black'
     }
   }
@@ -194,28 +172,33 @@ document.querySelector('.key[data-code="Enter"]').addEventListener('click', () =
 // CapsLock
 document.querySelector('.key[data-code="CapsLock"]').addEventListener('click', () => {
   isCaps++
-  document.cookie = `isCaps=${isCaps}`
 })
+// DOUBLED
 // Shift
+
 const a = document.querySelector('.key[data-code="ShiftLeft"]')
-a.addEventListener('mousedown', function () {
-  a.classList.toggle('activated')
+let counter = 0
+a.addEventListener('mousedown', () => {
+  counter = 1
+
   for (const d of DOUBLED) {
     d.children[0].classList.remove('upper')
     d.children[1].classList.add('disabled')
-    d.addEventListener('click', () => {
-      TEXTAREA.value += d.children[0].innerHTML
-    }, { once: true })
   }
-}, { once: true })
-document.querySelector('.key[data-code="ShiftLeft"]').addEventListener('mouseup', () => {
-  a.classList.remove('activated')
+})
+a.addEventListener('click', () => {
+  counter = 0
   for (const d of DOUBLED) {
     d.children[1].classList.remove('disabled')
     d.children[0].classList.add('upper')
-    d.addEventListener('click', () => {
-      TEXTAREA.value += d.children[1].innerHTML
-    })
   }
-  console.log('mouseup')
 })
+for (const d of DOUBLED) {
+  d.addEventListener('click', () => {
+    if (counter) {
+      TEXTAREA.value += d.children[0].innerText
+    } else {
+      TEXTAREA.value += d.children[1].innerText
+    }
+  })
+}

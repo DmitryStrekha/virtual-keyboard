@@ -127,6 +127,25 @@
       top: 0;
       left: 0;
   }
+  .symboles {
+    position: relative;
+  }
+  .symboles .upper {
+    position: absolute;
+    width: 2vw;
+    font-size: 1.2vw;
+    line-height: 2vw;
+    top: 0;
+    left: 0;
+}
+  .key .symboles{
+    position: relative;
+      width: 2vw;
+      font-size: 1.2vw;
+      line-height: 2vw;
+      top: 0;
+      left: 0;
+  }
 .disabled {
     display: none;
 }
