@@ -3,7 +3,7 @@ wrapper.classList.add('wrapper')
 wrapper.innerHTML =
   '<textarea class="textarea"></textarea>' +
   '<div class="keyboard">' +
-  '<div data-code="Backquote" class="key doubled dark"><span>`</span><span class="upper">~</span></div>' +
+  '<div data-code="Backquote" class="key multikey dark"><span class="show"><span>`</span><span class="upper">~</span></span><span><span>Ё</span></span></div>' +
   '<div data-code="Digit1" class="key doubled"><span>1</span><span class="upper">!</span></div>' +
   '<div data-code="Digit2" class="key doubled"><span>2</span><span class="upper">@</span></div>' +
   '<div data-code="Digit3" class="key doubled"><span>3</span><span class="upper">#</span></div>' +
@@ -17,7 +17,7 @@ wrapper.innerHTML =
   '<div data-code="Minus" class="key doubled"><span>-</span><span class="upper">_</span></div>' +
   '<div data-code="Equal" class="key doubled"><span>=</span><span class="upper">+</span></div>' +
   '<div data-code="Backspace" class="key wide dark">Backspace</div>' +
-  '<div data-code="Tab" class="key wide dark">Tab</div>' +
+  '<div data-code="Tab" class="key wide dark">Tab ⭾</div>' +
   '<div data-code="KeyQ" class="key letter"><span class="show">Q</span><span>Й</span></div>' +
   '<div data-code="KeyW" class="key letter"><span class="show">W</span><span>Ц</span></div>' +
   '<div data-code="KeyE" class="key letter"><span class="show">E</span><span>У</span></div>' +
@@ -29,7 +29,7 @@ wrapper.innerHTML =
   '<div data-code="KeyO" class="key letter"><span class="show">O</span><span>Щ</span></div>' +
   '<div data-code="KeyP" class="key letter"><span class="show">P</span><span>З</span></div>' +
   '<div data-code="BracketLeft" class="key multikey"><span class="show"><span>[</span><span class="upper">{</span></span><span><span>Х</span></span></div>' +
-  '<div data-code="BracketRight" class="key multikey"><span class="show"><span>[</span><span class="upper">}</span></span><span><span>Ъ</span></span></div>' +
+  '<div data-code="BracketRight" class="key multikey"><span class="show"><span>]</span><span class="upper">}</span></span><span><span>Ъ</span></span></div>' +
   '<div data-code="Delete" class="key dark">Del</div>' +
   '<div data-code="CapsLock" class="key wide dark">Caps Lock</div>' +
   '<div data-code="KeyA" class="key letter"><span class="show">A</span><span>Ф</span></div>' +
@@ -44,7 +44,7 @@ wrapper.innerHTML =
   '<div data-code="Semicolon" class="key multikey"><span class="show"><span>;</span><span class="upper">:</span></span><span><span>Ж</span></span></div>' +
   '<div data-code="Quote" class="key multikey"><span class="show"><span>\'</span><span class="upper">"</span></span><span><span>Э</span></span></div>' +
   '<div data-code="Enter" class="key wide dark">Enter</div>' +
-  '<div data-code="ShiftLeft" class="key wide dark">Shift</div>' +
+  '<div data-code="ShiftLeft" class="key wide dark">Shift ⇧</div>' +
   '<div data-code="Backslash" class="key multikey"><span class="show"><span>\\</span><span class="upper">|</span></span><span><span>\\</span><span class="upper">/</span></span></div>' +
   '<div data-code="KeyZ" class="key letter"><span class="show">Z</span><span>Я</span></div>' +
   '<div data-code="KeyX" class="key letter"><span class="show">X</span><span>Ч</span></div>' +
@@ -59,7 +59,7 @@ wrapper.innerHTML =
   '<div data-code="ArrowUp" class="key symbol dark">▲</div>' +
   '<div data-code="ShiftRight" class="key dark">⇧</div>' +
   '<div data-code="ControlLeft" class="key dark">Ctrl</div>' +
-  '<div data-code="MetaLeft" class="key dark">Win</div>' +
+  '<div data-code="MetaLeft" class="key dark">⊞</div>' +
   '<div data-code="AltLeft" class="key dark">Alt</div>' +
   '<div data-code="Space" class="key symbol ultra-wide"> </div>' +
   '<div data-code="AltRight" class="key dark">Alt</div>' +
@@ -84,7 +84,7 @@ if (document.cookie.slice(5) === '') {
 } else {
   isRU = document.cookie.slice(5)
 }
-function setLanguage() {
+function setLanguage () {
   if (isRU % 2) {
     for (const letter of LETTERS) {
       letter.children[0]?.classList.remove('show')
@@ -108,33 +108,56 @@ function setLanguage() {
 setLanguage()
 
 let isCaps = 0
-function toUpperRegister() {
+function toUpperRegister () {
   return (isCaps % 2)
 }
 
 let isShift = 0
-function letterToUpper() {
+function letterToUpper () {
   return isShift
 }
 
 document.addEventListener('keydown', e => {
+  TEXTAREA.focus()
   for (const letter of LETTERS) {
     if (e.code === letter.getAttribute('data-code')) {
       e.preventDefault()
-      if (toUpperRegister()) {
+      if (toUpperRegister() || letterToUpper() || e.shiftKey) {
         TEXTAREA.value += letter.innerText.toUpperCase()
       } else {
-        if (e.shiftKey) {
-          TEXTAREA.value += letter.innerText.toUpperCase()
-        } else {
-          TEXTAREA.value += letter.innerText.toLowerCase()
-        }
+        TEXTAREA.value += letter.innerText.toLowerCase()
       }
     }
   }
-  if (e.code === 'CapsLock') {
-    isCaps++
-  };
+  for (const multikey of MULTIKEYS) {
+    if (e.code === multikey.getAttribute('data-code')) {
+      e.preventDefault()
+      if (isRU % 2) {
+        if (multikey.children[1].children[1] === undefined) {
+          if (toUpperRegister() || letterToUpper() || e.shiftKey) {
+            TEXTAREA.value += multikey.children[1].children[0].innerText
+          } else {
+            TEXTAREA.value += multikey.children[1].children[0].innerText.toLowerCase()
+          }
+        } else {
+          if (letterToUpper() || e.shiftKey) {
+            TEXTAREA.value += multikey.children[1].children[1].innerText
+          } else {
+            TEXTAREA.value += multikey.children[1].children[0].innerText
+          }
+        }
+      } else {
+        if (letterToUpper() || e.shiftKey) {
+          TEXTAREA.value += multikey.children[0].children[1].innerText
+        } else {
+          TEXTAREA.value += multikey.children[0].children[0].innerText
+        }
+      }
+      isShift = 0
+    }
+  }
+  if (e.code === 'Tab') TEXTAREA.value += '    '
+  if (e.code === 'CapsLock') isCaps++
   if (e.altKey || e.code === 'Tab') e.preventDefault()
   if (e.shiftKey && e.altKey) {
     isRU++
@@ -143,8 +166,9 @@ document.addEventListener('keydown', e => {
   }
   for (const key of KEYS) {
     if (e.code === key.getAttribute('data-code')) {
-      key.style.opacity = '0.8'
+      key.style.opacity = '0.6'
       key.style.boxShadow = 'none'
+      key.style.color = '#fff'
     }
   }
 })
@@ -203,7 +227,7 @@ document.querySelector('.key[data-code="Backspace"]').addEventListener('click', 
 
 // Tab
 document.querySelector('.key[data-code="Tab"]').addEventListener('click', () => {
-  TEXTAREA.value += '  '
+  TEXTAREA.value += '    '
 })
 
 // Enter
@@ -216,7 +240,7 @@ document.querySelector('.key[data-code="CapsLock"]').addEventListener('click', (
   isCaps++
 })
 
-// Shift
+// ShiftLeft & ShiftRight
 
 let counter = 0
 document.querySelector('.key[data-code="ShiftLeft"]').addEventListener('mousedown', () => {
@@ -235,8 +259,6 @@ document.querySelector('.key[data-code="ShiftLeft"]').addEventListener('click', 
     d.children[1].classList.add('upper')
   }
 })
-
-// Multikeys
 for (const multikey of MULTIKEYS) {
   multikey.addEventListener('click', () => {
     if (isRU % 2) {
@@ -246,14 +268,12 @@ for (const multikey of MULTIKEYS) {
         } else {
           TEXTAREA.value += multikey.children[1].children[0].innerText.toLowerCase()
         }
-        isShift = 0
       } else {
         if (letterToUpper()) {
           TEXTAREA.value += multikey.children[1].children[1].innerText
         } else {
           TEXTAREA.value += multikey.children[1].children[0].innerText
         }
-        isShift = 0
       }
     } else {
       if (letterToUpper()) {
@@ -261,7 +281,7 @@ for (const multikey of MULTIKEYS) {
       } else {
         TEXTAREA.value += multikey.children[0].children[0].innerText
       }
-      isShift = 0
     }
+    isShift = 0
   })
 }
